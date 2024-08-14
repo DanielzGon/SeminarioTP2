@@ -14,9 +14,9 @@ function fatorial(n) {
     return resp;
 }
 app.get('/', (request, response) => {
-    response.render('operacoes', { a: '', b: '', nome: '' })
+    response.render("arquivo.ejs")
 })
-app.route('/operacao')
+app.route('/aindanexiste')
     .get((req, res) => {
         res.render('operacoes', { a: '', b: '', nome: '' })
     })
@@ -77,4 +77,5 @@ app.route('/fatorial')
         }
         res.render('operacoes', { x: result, a: req.body.n1, b: req.body.n2, nome: req.body.nome })
     })
-app.listen(1342, () => { console.log("Servidor em http://localhost:1342") })
+    const port = 7777
+app.listen(port , () => { console.log("Servidor na porta ", port) })
