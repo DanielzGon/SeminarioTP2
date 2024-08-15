@@ -8,5 +8,5 @@ app.get('/', (request, response) => {
     response.render("conta.ejs")
 })
 
-    const port = 7777
+const port = 7777
 app.listen(port , () => { console.log("Servidor na porta ", port) })
