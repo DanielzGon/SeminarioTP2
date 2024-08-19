@@ -5,13 +5,13 @@ app.set("view engine", "ejs");
 
 
 app.get("/", (request, response) => {
-  response.render("operacoes", { a: "", b: "", nome: "" });
+  response.render("index", { a: "", b: "", nome: "" });
 });
 
 app
   .route('/operacao')
   .get((req, res) => {
-    res.render("operacoes", { a: "", b: "", nome: "" });
+    res.render("index", { a: "", b: "", nome: "" });
   })
   
 
@@ -27,7 +27,7 @@ app
     } else {
       result = "Anônimo, seu fatorial deu: " + result;
     }
-    res.render("operacoes", { x: result, a: valor, b: "", nome: "" });
+    res.render("index", { x: result, a: valor, b: "", nome: "" });
   })
   .post((req, res) => {
     let valor;
@@ -42,7 +42,7 @@ app
     } else {
       result = req.body.nome + ", seu fatorial deu: " + result;
     }
-    res.render("operacoes", {
+    res.render("index", {
       x: result,
       a: req.body.n1,
       b: req.body.n2,
