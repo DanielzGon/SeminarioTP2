@@ -3,16 +3,6 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
-function fatorial(n) {
-  if (n == 0) {
-    return 1;
-  }
-  var resp = n;
-  while (n > 2) {
-    resp *= --n;
-  }
-  return resp;
-}
 
 app.get("/", (request, response) => {
   response.render("operacoes", { a: "", b: "", nome: "" });
@@ -23,37 +13,7 @@ app
   .get((req, res) => {
     res.render("operacoes", { a: "", b: "", nome: "" });
   })
-  .post((req, res) => {
-    console.log("n1=" + req.body.n1);
-    console.log("n2=" + req.body.n2);
-    console.log("Operação=" + req.body.op);
-    console.log("NOME=" + req.body.nome);
-    let result, conta;
-    if (req.body.op === "+") {
-      conta = "soma";
-      result = parseFloat(req.body.n1) + parseFloat(req.body.n2);
-    } else if (req.body.op === "-") {
-      conta = "subtração";
-      result = parseFloat(req.body.n1) - parseFloat(req.body.n2);
-    } else if (req.body.op === "x") {
-      conta = "multiplicação";
-      result = parseFloat(req.body.n1) * parseFloat(req.body.n2);
-    } else if (req.body.op === "/") {
-      conta = "divisão";
-      result = parseFloat(req.body.n1) / parseFloat(req.body.n2);
-    } else result = "Operação inválida";
-    if (isNaN(result)) {
-      result = "Valores inválidos.";
-    } else {
-      result = req.body.nome + ", sua " + conta + " deu: " + result;
-    }
-    res.render("operacoes", {
-      x: result,
-      a: req.body.n1,
-      b: req.body.n2,
-      nome: req.body.nome,
-    });
-  });
+  
 
 app
   .route('/fatorial')

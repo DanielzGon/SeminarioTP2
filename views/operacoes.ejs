@@ -1,47 +1,158 @@
-<!DOCTYPE html>
-<html lang="pt" dir="ltr">
-<%console.log('Exibindo página operacoes.ejs')%>
-
-    <head>
-        <meta charset="utf-8">
-        <title>Calculadora</title>
-        <script>
-            function defineOperacao(operacao) {
-                document.getElementById("op").value = operacao;
-            }
-            function defineRota(rota) {
-                document.getElementById("contas").action = rota;
-            }
-        </script>
+<html><head>
+    <title> Calculadora </title>
+    <meta name="description" content="0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+   
     </head>
-
+    
     <body>
-        <form action="/operacao" method="post" id="contas">
-            <label> Nome </label>
-            <input id="nome" name="nome" value="<%=nome%>" />
-            <br>
-            <label> Valor 1 </label>
-            <input id="n1" name="n1" value="<%=a%>" /><br>
-            <label> Valor 2 </label>
-            <input id="n2" name="n2" value="<%=b%>" /><br>
-            <!--label> Operação </label>
-<input id="op" name="op" readonly/-->
-            <input id="op" name="op" type="hidden" />
-            <br>
-            <button type="submit" onclick="defineOperacao('+')">+</button>
-            <button type="submit" onclick="defineOperacao('-')">-</button>
-            <button type="submit" onclick="defineOperacao('x')">x</button>
-            <button type="submit" onclick="defineOperacao('/')">/</button>
-            <button type="submit" onclick="defineRota('/fatorial')">!</button>
-        </form>
-        <% if( typeof(x) !="undefined" ){ %>
-            <h1>Resultado:</h1>
-            <h3 id="resultado" name="resultado">
-                <%=x%>
-            </h3>
-            <% } else { %>
-                <h4>aguardando valores...</h4>
-                <% } %>
-    </body>
+      <div class="cabeca">
+          <h1>Calculadora<img id="im1" src="img/icon call.png" alt="ams"></h1>
+  
+      </div>
+      
+    <!-- CALCULATOR -->
+    <div class="calculator">
 
-</html>
+      <!-- DISPLAY -->
+      <div class="display">
+          <input id="display" placeholder="0" disabled>
+          <h2 id="history"></h2>
+      </div>
+
+      <!-- <BUTTONS -->
+      <div class="row">
+          <button class="button purple-text" onclick="limpar()">AC</button>
+          <div></div>
+          <button class="button gray" onclick="add_operador('^')">^</button>
+          <button class="button gray" onclick="add_operador('÷')">÷</button>
+      </div>
+
+      <div class="row">
+          <button class="button" onclick="add_numero(7)">7</button>
+          <button class="button" onclick="add_numero(8)">8</button>
+          <button class="button" onclick="add_numero(9)">9</button>
+          <button class="button gray" onclick="add_operador('x')">x</button>
+      </div>
+
+      <div class="row">
+          <button class="button" onclick="add_numero(4)">4</button>
+          <button class="button" onclick="add_numero(5)">5</button>
+          <button class="button" onclick="add_numero(6)">6</button>
+          <button class="button gray" onclick="add_operador('-')">-</button>
+      </div>
+
+      <div class="row">
+          <button class="button" onclick="add_numero(1)">1</button>
+          <button class="button" onclick="add_numero(2)">2</button>
+          <button class="button" onclick="add_numero(3)">3</button>
+          <button class="button gray" onclick="add_operador('+')">+</button>
+      </div>
+
+      <div class="row">   
+          <button class="button purple" onclick="calcularRaizQuadrada()">√</button>
+          <button class="button" onclick="add_numero(0)">0</button>
+          <button class="button" onclick="add_numero('.')">.</button>
+          <button class="button purple" onclick="total()">=</button>
+      </div>
+      <!-- BUTTONS/> -->
+  </div>
+
+  <!-- SCRIPTS -->
+  <script type="text/javascript" src="call.js">
+    
+var input = document.querySelector("#display");
+var operador = "";
+var parar = false;
+
+function limpar() {
+    input.value = "";
+    document.querySelector("#history").innerHTML = "";
+    operador = "";
+    parar = false;
+}
+
+function add_numero(string) {
+    if (!parar) {
+        if (string === '.' && input.value.indexOf(".") === -1 || string !== '.') {
+            input.value += string;
+        }
+    } else {
+        if (string === '.' && input.value.indexOf(".") === -1 || string !== '.') {
+            input.value = "";
+            parar = false;
+            document.querySelector("#history").innerHTML = "";
+            operador = "";
+            input.value += string;
+        }
+    }
+}
+
+function add_operador(op) {
+    if (input.value === "") {
+        input.value = "0";
+    }
+    if (operador === "") {
+        operador = op;
+        input.value += op;
+    } else {
+        total();
+        input.value += op;
+        operador = op;
+        parar = false;
+    }
+}
+
+function total() {
+    if (!parar) {
+        let numeros = input.value.split(operador);
+        if (numeros[1] === "") {
+            input.value += '0';
+            numeros[1] = 0;
+        }
+        document.querySelector("#history").innerHTML = input.value;
+        switch (operador) {
+            case "+":
+                input.value = Number(numeros[0]) + Number(numeros[1]);
+                break;
+            case "-":
+                input.value = Number(numeros[0]) - Number(numeros[1]);
+                break;
+            case "x":
+                input.value = Number(numeros[0]) * Number(numeros[1]);
+                break;
+            case "÷":
+                input.value = Number(numeros[0]) / Number(numeros[1]);
+                break;
+            case "√":
+                  calcularRaizQuadrada();
+                break;
+            case "^":
+                input.value = Number(numeros[0]) ** Number(numeros[1]);  
+                break;
+            case "√":
+                    if (num1 < 0) {
+                    } else {
+                        result = Math.pow(num2, 1 / num1);
+                    }
+                    break;
+        }
+        parar = true;
+    }
+}
+
+function calcularRaizQuadrada() {
+    if (input.value !== "√") {
+        let numero = parseFloat(input.value);
+        if (numero >= 0) {
+            let raizQuadrada = Math.sqrt(numero);
+            input.value = raizQuadrada;
+            document.querySelector("#history").innerHTML = `√(${numero}) = ${raizQuadrada}`;
+}
+    }
+}
+  </script>
+  </form> 
+    </body></html>
